@@ -1,0 +1,116 @@
+{
+  "log": {
+    "level": "info"
+  },
+  "dns": {
+    "servers": [
+      {
+        "address": "1.1.1.1",
+        "strategy": "prefer_ipv6",
+        "tag": "dns"
+      }
+    ]
+  },
+  "ntp": {},
+  "inbounds": [
+    {
+      "type": "vmess",
+      "users": [
+        {
+          "name": "public",
+          "uuid": "e267b38f-83b1-4a20-d347-1317ff3b7848",
+          "alterId": 0
+        },
+        {
+          "name": "1234",
+          "uuid": "6b5fbabd-b413-4b4d-bfc8-5d12c444bf4c",
+          "alterId": 0
+        }
+      ],
+      "tls": {},
+      "multiplex": {
+        "enabled": true,
+        "brutal": {
+          "enabled": true,
+          "up_mbps": 400,
+          "down_mbps": 400
+        }
+      },
+      "transport": {
+        "type": "http"
+      },
+      "tag": "in-80",
+      "listen": "::",
+      "listen_port": 80,
+      "sniff": true,
+      "tcp_fast_open": true,
+      "tcp_multi_path": true
+    },
+    {
+      "type": "mixed",
+      "tag": "in-58559",
+      "listen": "::",
+      "listen_port": 58559,
+      "sniff": true,
+      "users": [
+        {
+          "username": "public",
+          "password": "t12Gr4Lbsy"
+        }
+      ]
+    },
+    {
+      "type": "vmess",
+      "users": [],
+      "tls": {},
+      "multiplex": {},
+      "transport": {
+        "type": "ws",
+        "early_data_header_name": "Sec-WebSocket-Protocol",
+        "path": "/"
+      },
+      "tag": "in-54715",
+      "listen": "::",
+      "listen_port": 8080
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "direct",
+      "type": "direct"
+    },
+    {
+      "type": "dns",
+      "tag": "dns-out"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "protocol": "dns",
+        "outbound": "dns-out"
+      }
+    ]
+  },
+  "experimental": {
+    "v2ray_api": {
+      "listen": "127.0.0.1:1080",
+      "stats": {
+        "enabled": true,
+        "inbounds": [
+          "in-80",
+          "in-443",
+          "in-58559"
+        ],
+        "outbounds": [
+          "direct"
+        ],
+        "users": [
+          "123",
+          "1234",
+          "public"
+        ]
+      }
+    }
+  }
+}
